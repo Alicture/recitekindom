@@ -1,0 +1,139 @@
+<html class="no-js">
+<head>
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='highcharts.js') }}"></script>
+<script src="{{ url_for('static', filename='chartkick.js') }}"></script>
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>单词王国 &mdash; 爱上背单词</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+    <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+    <meta name="author" content="FREEHTML5.CO" />
+
+    <!-- Facebook and Twitter integration -->
+  <meta property="og:title" content=""/>
+  <meta property="og:image" content=""/>
+  <meta property="og:url" content=""/>
+  <meta property="og:site_name" content=""/>
+  <meta property="og:description" content=""/>
+  <meta name="twitter:title" content="" />
+  <meta name="twitter:image" content="" />
+  <meta name="twitter:url" content="" />
+  <meta name="twitter:card" content="" />
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="shortcut icon" href="static/favicon.ico">
+
+  <!-- Google Webfont -->
+  <link href='https://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
+  <!-- Themify Icons -->
+  <link rel="stylesheet" href="static/css/themify-icons.css">
+  <!-- Icomoon Icons -->
+  <link rel="stylesheet" href="static/css/icomoon-icons.css">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <!-- Owl Carousel -->
+  <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="static/css/owl.theme.default.min.css">
+  <!-- Magnific Popup -->
+  <link rel="stylesheet" href="static/css/magnific-popup.css">
+  <!-- Easy Responsive Tabs -->
+  <link rel="stylesheet" href="static/css/easy-responsive-tabs.css">
+  <!-- Theme Style -->
+  <link rel="stylesheet" href="static/css/style.css">
+
+  
+  <!-- FOR IE9 below -->
+  <!--[if lte IE 9]>
+  <script src="js/modernizr-2.6.2.min.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+
+
+
+  </head>
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='highcharts.js') }}"></script>
+<script src="{{ url_for('static', filename='chartkick.js') }}"></script>
+<body>
+	<header id="fh5co-header" role="banner">
+      <div class="container">
+        <!-- Logo -->
+        <div id="fh5co-logo">
+          <a href="/">
+            <img src="static/images/logo.png" alt="Work Logo">
+          </a>
+
+        </div>
+        <!-- Logo -->
+        
+        <!-- Mobile Toggle Menu Button -->
+        <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+        
+        <!-- Main Nav -->
+        <div id="fh5co-main-nav">
+          <nav id="fh5co-nav" role="navigation">
+            <ul>
+              <li>
+                <a href="/">背单词</a>
+              </li>
+              <li class="fh5co-active">
+                <a href="/getdata">数据统计</a>
+              </li>
+              <!-- <li>
+                <a href="elements.html">Elements</a>
+              </li> -->
+            </ul>
+          </nav>
+        </div>
+        <!-- Main Nav -->
+      </div>
+    </header>
+    <div class="col-md-8 col-md-offset-2">
+<!--     <h3>日背诵词汇量</h3>
+    {% column_chart data %} -->
+    <h3>日背诵词汇量</h3>
+<!-- {% pie_chart data %} -->
+	{% line_chart data %}
+	<h3>复习完成度（百分比）</h3>
+	{% pie_chart piedata %}
+</div>
+<footer id="fh5co-footer" role="contentinfo">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-push-6 col-md-6">
+						<ul class="fh5co-footer-social">
+							<li><a href="https://github.com/Alicture">Github</a></li>
+						</ul>
+						<p class="fh5co-copyright">
+							<small>(c) 2017 <a href="http://www.alicture.tech">Alicture</a>. All Rights Reserved. <br>
+Designed by: <a href="http://freehtml5.co/">freehtml5.co</a> Images: <a href="http://plmd.me/" target="_blank">plmd.me</a> &amp; <a href="http://unsplash.com/" target="_blank">Unsplash</a> </small>
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+<script src="static/js/jquery-1.10.2.min.js"></script>
+    <!-- jQuery Easing -->
+<script src="static/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+<script src="static/js/bootstrap.js"></script>
+    <!-- Owl carousel -->
+<script src="static/js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="static/js/jquery.magnific-popup.min.js"></script>
+    <!-- Easy Responsive Tabs -->
+    <script src="static/js/easyResponsiveTabs.js"></script>
+    <!-- FastClick for Mobile/Tablets -->
+    <script src="static/js/fastclick.js"></script>
+    <!-- Velocity -->
+    <script src="static/js/velocity.min.js"></script>
+    <!-- Google Map -->
+    // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
+    <script src="static/js/google_map.js"></script>
+    <!-- Main JS -->
+    <script src="static/js/main.js"></script>
+</body>

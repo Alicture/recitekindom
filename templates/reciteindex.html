@@ -1,0 +1,396 @@
+<html class="no-js">
+<head>
+<script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='highcharts.js') }}"></script>
+<script src="{{ url_for('static', filename='chartkick.js') }}"></script>
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>单词王国 &mdash; 爱上背单词</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+    <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+    <meta name="author" content="FREEHTML5.CO" />
+
+    <!-- Facebook and Twitter integration -->
+  <meta property="og:title" content=""/>
+  <meta property="og:image" content=""/>
+  <meta property="og:url" content=""/>
+  <meta property="og:site_name" content=""/>
+  <meta property="og:description" content=""/>
+  <meta name="twitter:title" content="" />
+  <meta name="twitter:image" content="" />
+  <meta name="twitter:url" content="" />
+  <meta name="twitter:card" content="" />
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="shortcut icon" href="static/favicon.ico">
+
+  <!-- Google Webfont -->
+  <link href='https://fonts.googleapis.com/css?family=PT+Mono' rel='stylesheet' type='text/css'>
+  <!-- Themify Icons -->
+  <link rel="stylesheet" href="static/css/themify-icons.css">
+  <!-- Icomoon Icons -->
+  <link rel="stylesheet" href="static/css/icomoon-icons.css">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <!-- Owl Carousel -->
+  <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="static/css/owl.theme.default.min.css">
+  <!-- Magnific Popup -->
+  <link rel="stylesheet" href="static/css/magnific-popup.css">
+  <!-- Easy Responsive Tabs -->
+  <link rel="stylesheet" href="static/css/easy-responsive-tabs.css">
+  <!-- Theme Style -->
+  <link rel="stylesheet" href="static/css/style.css">
+
+  
+  <!-- FOR IE9 below -->
+  <!--[if lte IE 9]>
+  <script src="js/modernizr-2.6.2.min.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+
+
+
+  </head>
+<script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+<script type=text/javascript>
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script type=text/javascript>
+	var wordlist;
+  var reviewlist;
+	var i=0,l=0,s=0,k=0;
+  	$(function() {
+ 	$.ajaxSetup({async :false});
+    $('a#calculate').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
+        a: $('input[name="a"]').val(),
+        b: $('input[name="b"]').val()
+      }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    });
+    $('a#recite').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/recite', {
+        number: $('input[name="number"]').val()
+      }, function(data) {
+      	wordlist=data.wordlist
+      	l=data.wordlist.length
+      	$("#word").text(wordlist[0][0])
+    	$("#trans").text(wordlist[0][1])
+      });
+      return false;
+    });
+    $('a#addToRecite').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/addToReview', {
+        word: $("#word").text(),
+        trans:$("#trans").text()
+      }, function(data) {
+        alert(data.msg)
+      });
+      return false;
+    });
+    //  $('a#datamap').bind('click', function() {
+    //   $.getJSON($SCRIPT_ROOT + '/', {
+    //   }, function(data) {
+    //     location.hash="datashow"
+    //     alert("test")
+    //   });
+    //   return false;
+    // });
+
+    $('a#sciReview').bind('click', function() {
+      var option = $("#mode option:selected").val()
+      
+      $.getJSON($SCRIPT_ROOT + '/sciReview', {
+        scinumber: $('input[name="scinumber"]').val()
+      }, function(data) {
+        s=0
+        k=0
+        $('a#sciReview').text('重新开始')
+        reviewlist=data.reviewlist
+        s=data.reviewlist.length
+        if(option=='none'){
+        alert('请选择模式再开始复习');
+        return false;
+      }
+        else if(option=='en'){
+          $("#scitrans").text('')
+          $("#sciword").text(data.reviewlist[0][0])
+        }
+        else{
+          $("#sciword").text('')
+          $("#scitrans").text(data.reviewlist[0][1])
+        }
+
+      });
+      return false;
+    });
+
+    $('a#sciReviewUpdate').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/sciReviewUpdate', {
+        sciword: reviewlist[k][0]
+      }, function(data) {
+        alert(data.scimsg)
+          
+      });
+      return false;
+    });
+    }); 
+function next() {
+	if(i<l-1){
+	i=i+1
+    $("#word").text(wordlist[i][0])
+    $("#trans").text(wordlist[i][1])}
+	
+}
+function pre() {
+	if(i>0){i=i-1
+    $("#word").text(wordlist[i][0])
+    $("#trans").text(wordlist[i][1])}
+}
+function scinext() {
+  if(k<s-1){
+  k=k+1
+    if($("#mode option:selected").val()=='en'){
+       $("#scitrans").text('')
+      $("#sciword").text(reviewlist[k][0])
+    }
+    else{
+      $("#sciword").text('')
+      $("#scitrans").text(reviewlist[k][1])
+    }
+  }
+  
+}
+function scipre() {
+  if(k>0){k=k-1
+     if($("#mode option:selected").val()=='en'){
+       $("#scitrans").text('')
+      $("#sciword").text(reviewlist[k][0])
+    }
+    else{
+      $("#sciword").text('')
+      $("#scitrans").text(reviewlist[k][1])
+    }
+  }
+}
+function tip(){
+  if($("#mode option:selected").val()=='en'){
+    $("#scitrans").text(reviewlist[k][1])
+  }
+  else{
+    $("#sciword").text(reviewlist[k][0])
+  }
+}
+
+// function addReview(){
+//   var data = {
+//     “word”, $("#word").text()
+//     "trans", $("#trans").text()
+// }
+// $.ajax({
+//     type: 'POST',
+//     url: /addToReview/,
+//     data: JSON.stringify(data),
+//     contentType: 'application/json; charset=UTF-8',
+//     dataType: 'json', 
+//     success: function(data) { 
+
+//     },
+//     error: function(xhr, type) {
+//     }
+// });
+// }
+</script>
+<body>
+<!-- <h1>jQuery Example</h1>
+<p><input type=text size=5 name=a> +
+   <input type=text size=5 name=b> =
+<span id=result>?</span>
+<p><a href=# id=calculate>calculate server side</a> -->
+    <header id="fh5co-header" role="banner">
+      <div class="container">
+        <!-- Logo -->
+        <div id="fh5co-logo">
+          <a href="/">
+            <img src="static/images/logo.png" alt="Work Logo">
+          </a>
+
+        </div>
+        <!-- Logo -->
+        
+        <!-- Mobile Toggle Menu Button -->
+        <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+        
+        <!-- Main Nav -->
+        <div id="fh5co-main-nav">
+          <nav id="fh5co-nav" role="navigation">
+            <ul>
+              <li class="fh5co-active">
+                <a href="/">背单词</a>
+              </li>
+              <li>
+                <a href="/getdata">数据统计</a>
+              </li>
+              <!-- <li>
+                <a href="elements.html">Elements</a>
+              </li> -->
+            </ul>
+          </nav>
+        </div>
+        <!-- Main Nav -->
+      </div>
+    </header>
+      <div id="fh5co-intro">
+        <div class="container">
+          <!-- <h2>Recite Kingdom</h2> -->
+           <!--  <div class="row">
+              <div class="col-md-6 col-md-push-6 fh5co-intro-sub">
+                <p>此处所用数据爬取自扇贝单词</p>
+              </div>
+            </div> -->
+        <!--     <hr class="fh5co-spacer fh5co-spacer-sm"> -->
+
+<div class="col-md-12">
+<div id="fh5co-tab-feature" class="fh5co-tab">
+                  <ul class="resp-tabs-list hor_1">
+                    <li><i class="fh5co-tab-menu-icon ti-ruler-pencil"></i>快速学习</li>
+                    <li><i class="fh5co-tab-menu-icon ti-paint-bucket"></i>科学复习</li>
+                    <li><i class="fh5co-tab-menu-icon ti-shopping-cart"></i>更多</li>
+                  </ul>
+                  <div class="resp-tabs-container hor_1">
+                    <div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h2 class="h3">快速学习</h2>
+                        </div>
+                    
+  <div class="col-md-6">
+  背诵词汇量:<input name="number" placeholder="想学几个？" id="name" type="text" class="form-control input-lg">
+  <a class="btn btn-outline btn-sm" href=# id=recite>开始学习</a><br>
+  
+  <a href="javascript:void(0)" onclick='pre()' class="btn btn-outline btn-sm">上一个</a><a href="javascript:void(0)" onclick='next()' class="btn btn-outline btn-sm">下一个</a>
+  <a href="#" id=addToRecite class="btn btn-primary btn-sm">添加到生词本</a>
+    </div>
+
+                        <div class="col-md-6">
+                          <p>
+                          单词:<span id=word></span><br>
+                          中文:<span id=trans></span><br>
+                        </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h2 class="h3">科学复习</h2>
+                        </div>
+                        <div name='datashow' class="col-md-6">
+                          {% line_chart datalist %}
+                          <h5>时间-记忆率线性图</h5>
+                        </div>
+ <script>
+      new Chartkick.LineChart("discrete-line", [["United States",44],["Germany",23],["Brazil",22],["Canada",21],["France",13]], {"discrete": true});
+    </script>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                    <label for="背诵模式" class="sr-only">Mode</label>
+                    <select class="form-control input-lg" id="mode">
+                      <option value='none'>--Mode--</option>
+                      <option value='en'>显示英文</option>
+                      <option value='zh'>显示中文</option>
+                    </select>
+                  </div> 
+                         <p>
+                          单词:<span id=sciword></span><br>
+                          中文:<span id=scitrans></span><br>
+                          复习量:<input name="scinumber" placeholder="想背几个？" id="name" type="text" class="form-control input-lg">
+                          <a href="#" id=sciReview class="btn btn-primary btn-sm">开始复习</a>
+                          <a href="javascript:void(0)" onclick='scipre()' class="btn btn-outline btn-sm">上一个</a><a href="javascript:void(0)" onclick='scinext()' class="btn btn-outline btn-sm">下一个</a>
+                          <a href="javascript:void(0)" onclick='tip()' class="btn btn-outline btn-sm">提示</a>
+                          <a href="#" id=sciReviewUpdate class="btn btn-outline btn-sm">记住了</a>
+                          <!-- <a href="#" id=datamap class="btn btn-primary btn-sm">统计</a> -->
+                        </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h2 class="h3">更多可能</h2>
+                        </div>
+                        <div class="col-md-6">
+                          终端中运行<code>Python recite.py</code>
+                          开始在终端里背单词吧！
+                          <p><pre><code>
+python recite.py --help
+usage: recite.py [-h] [-qr QUICKRECITE] [-rv REVIEWWORDS]
+
+Word recite tool
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -qr QUICKRECITE, --quickrecite QUICKRECITE
+                        set quick recite mode and wordnumber
+  -rv REVIEWWORDS, --reviewwords REVIEWWORDS
+                        review words with Ebbinghaus curv
+                          </code></pre></p>
+                        </div>
+
+                        <div class="col-md-6">
+                          <p>或者运行下微信机器人帮你和你的朋友们背单词？终端中运行<code>Python WeBot.py</code></p>
+                          <h4>: )Have Fun!</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+
+<footer id="fh5co-footer" role="contentinfo">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-push-6 col-md-6">
+            <ul class="fh5co-footer-social">
+              <li><a href="https://github.com/Alicture">Github</a></li>
+            </ul>
+            <p class="fh5co-copyright">
+              <small>(c) 2017 <a href="http://www.alicture.tech">Alicture</a>. All Rights Reserved. <br>
+Designed by: <a href="http://freehtml5.co/">freehtml5.co</a> Images: <a href="http://plmd.me/" target="_blank">plmd.me</a> &amp; <a href="http://unsplash.com/" target="_blank">Unsplash</a> </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+<script src="static/js/jquery-1.10.2.min.js"></script>
+    <!-- jQuery Easing -->
+<script src="static/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+<script src="static/js/bootstrap.js"></script>
+    <!-- Owl carousel -->
+<script src="static/js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="static/js/jquery.magnific-popup.min.js"></script>
+    <!-- Easy Responsive Tabs -->
+    <script src="static/js/easyResponsiveTabs.js"></script>
+    <!-- FastClick for Mobile/Tablets -->
+    <script src="static/js/fastclick.js"></script>
+    <!-- Velocity -->
+    <script src="static/js/velocity.min.js"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
+    <script src="static/js/google_map.js"></script>
+    <!-- Main JS -->
+    <script src="static/js/main.js"></script>
+    </body>
+    </html>
